@@ -1,0 +1,38 @@
+name: Tests
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+      - '!main'
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Fetch apiUrl
+        run: echo ::set-output name=apiUrl::$(jq -r .env.apiUrl cypress.json)/ping
+        id: fetchApiUrl
+      - name: Run tests
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm run start
+          wait-on: ${{ steps.fetchApiUrl.outputs.apiUrl }}
+      - name: Set result_url env var
+        if: always()
+        run: echo "result_url=http://mockbin.com/request" >> $GITHUB_ENV
+      - name: Set github_repo env var
+        if: always()
+        run: echo "github_repo=$GITHUB_REPOSITORY" >> $GITHUB_ENV
+      - uses: joelwmale/webhook-action@master
+        if: failure()
+        with:
+          url: ${{ env.result_url }}
+          body: '{"assignmentRepository": "${{ env.github_repo }}","status": "failed"}'
+      - uses: joelwmale/webhook-action@master
+        if: success()
+        with:
+          url: ${{ env.result_url }}
+          body: '{"assignmentRepository": "${{ env.github_repo }}","status": "passed"}'
