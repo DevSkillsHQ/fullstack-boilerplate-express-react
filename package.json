@@ -4,10 +4,10 @@
   "scripts": {
     "build:backend": "cd backend-express && npm install && npm run build",
     "build:frontend": "cd frontend-react && npm install && npm run build",
-    "build:fullstack": "npm run build:backend & npm run build:frontend",
+    "build": "npm run build:backend & npm run build:frontend",
     "start:backend": "cd backend-express && npm run start",
     "start:frontend": "cd frontend-react &&  npm run start",
-    "start:fullstack": "npm run start:backend & npm run start:frontend",
+    "start": "npm run start:backend & npm run start:frontend",
     "test:backend": "cypress run --spec 'cypress/integration/backend.spec.js'",
     "test:frontend": "cypress run --spec 'cypress/integration/frontend.spec.js'",
     "test": "cypress run"
