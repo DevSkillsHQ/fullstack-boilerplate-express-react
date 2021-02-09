@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "react-scripts build",
-    "start": "npm run start:frontend",
+    "start": "react-scripts start",
     "test": "cypress run"
   },
   "eslintConfig": {
