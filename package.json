@@ -8,8 +8,6 @@
     "start:backend": "cd app-express && npm run start",
     "start:frontend": "cd app-react &&  npm run start",
     "start": "npm run start:backend & npm run start:frontend",
-    "test:backend": "cypress run --spec 'cypress/integration/backend.spec.js'",
-    "test:frontend": "cypress run --spec 'cypress/integration/frontend.spec.js'",
     "test": "cypress run"
   },
   "devDependencies": {
