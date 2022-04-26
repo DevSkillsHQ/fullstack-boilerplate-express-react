@@ -11,9 +11,9 @@ Use it for setting up a take-home interview assignment or a portfolio project.
 
 ## Tech Stack
 
-- React 11
+- React
 - create-react-app
-- Express 4
+- ExpressJS
 - Cypress
 - GitHub Actions
 ---
