@@ -1,6 +1,6 @@
 {
-  "name": "account-management-fullstack-level-3",
-  "version": "0.0.1",
+  "name": "fullstack-boilerplate",
+  "version": "1.0.0",
   "scripts": {
     "build:backend": "cd app-express && npm install && npm run build",
     "build:frontend": "cd app-react && npm install && npm run build",
@@ -11,6 +11,6 @@
     "test": "cypress run"
   },
   "devDependencies": {
-    "cypress": "^8.6.0"
+    "cypress": "^9.7.0"
   }
 }
