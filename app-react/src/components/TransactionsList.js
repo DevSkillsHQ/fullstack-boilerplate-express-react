@@ -1,7 +1,16 @@
-import React from "react";
+import WithDrawnList from "./WithDrawn";
+import DepositList from "./Deposit";
 
-const TransactionsList = () => {
-  return <div>TransactionsList</div>;
+const TransactionList = () => {
+  return (
+    <>
+      <h3>Transaction History</h3>
+      <ul>
+        <WithDrawnList />
+        <DepositList />
+      </ul>
+    </>
+  );
 };
 
-export default TransactionsList;
+export default TransactionList;
