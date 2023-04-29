@@ -3,7 +3,7 @@ const router = express.Router();
 const fetch = require("node-fetch");
 
 const API_URL = "https://infra.devskills.app/api/transaction-management/transactions";
-const API_URL_ACCOUNTS = "https://infra.devskills.app/api/transaction-management/accounts"
+const API_URL_ACCOUNTS = "https://infra.devskills.app/api/transaction-management/accounts";
 
 router.get("/ping", (req, res) => {
   res.send("pong")
