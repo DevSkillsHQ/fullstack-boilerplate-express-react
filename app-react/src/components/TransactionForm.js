@@ -6,7 +6,6 @@ const TransactionForm = () => {
   const [formData, setFormData] = useState({
     from_account_id: "",
     to_account_id: "",
-    //account_id: "",
     amount: "",
   });
 
