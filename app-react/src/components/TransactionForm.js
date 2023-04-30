@@ -48,7 +48,7 @@ const TransactionForm = () => {
 
     setTimeout(() => {
       window.location.reload(true);
-    }, 6000);
+    }, 2000);
 
     if (Object.keys(errors).length === 0) {
       await addTransaction(transaction);
