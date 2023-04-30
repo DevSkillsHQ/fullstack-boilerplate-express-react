@@ -8,7 +8,6 @@ const TransactionList = () => {
       <ul>
         <WithDrawnList />
         <TransactionHistory />
-
       </ul>
     </>
   );

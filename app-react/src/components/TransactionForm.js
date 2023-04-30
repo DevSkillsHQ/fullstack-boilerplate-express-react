@@ -82,7 +82,7 @@ const TransactionForm = () => {
           />
         </div>
         {errors.account_id && (
-          <div className="text-danger">{errors.saccount_id}</div>
+          <div className="text-danger">{errors.account_id}</div>
         )}
 
         <div className="form-control mb-3">

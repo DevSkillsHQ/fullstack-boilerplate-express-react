@@ -8,10 +8,9 @@ function App() {
     <>
       <TransactionsProvider>
         <div className="container text-center p-5">
-        <header>Transaction Management</header>
+          <header>Transaction Management</header>
           <div className="row">
             <div className="col p-5">
-              
               <TransactionForm />
             </div>
             <div className="col p-5">
