@@ -109,14 +109,6 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  // const storedArray = JSON.parse(localStorage.getItem("test"));
-
-  // const updateLocalStorage = (key, transaction) => {
-  //   localStorage.setItem(key, JSON.stringify(transaction));
-  // };
-
-  // const deposit = transactions.filter((transaction) => transaction.amount >= 0);
-
   const withdrawn = transactions
     .filter((transaction) => transaction.amount < 0)
     .map((transaction) => ({

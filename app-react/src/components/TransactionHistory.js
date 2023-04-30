@@ -8,15 +8,13 @@ const TransactionHistory = () => {
 
   const transactionObj = JSON.parse(storedTransaction) || [];
 
-  console.log(transactionObj);
-
   return (
     <>
       <h4 className="mb-3">Transaction amount (deposit)</h4>
       {transactionObj &&
       transactionObj.account_id &&
       transactionObj.to_account_id &&
-      transactionObj.amount ? (
+      transactionObj.amount >= 0 ? (
         <div>
           {" "}
           <span className="mr-4">
