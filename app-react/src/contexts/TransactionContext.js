@@ -90,13 +90,13 @@ export const TransactionsProvider = ({ children }) => {
       const updatedTransactions = [
         ...transactions,
         {
-          from: transaction.from_account_id,
+          from: transaction.account_id,
           to: transaction.to_account_id,
           ...data,
         },
       ];
 
-      localStorage.setItem("from", transaction.from_account_id);
+      localStorage.setItem("from", transaction.account_id);
       localStorage.setItem("to", transaction.from_account_id);
 
       setTransactions(updatedTransactions);
@@ -123,10 +123,9 @@ export const TransactionsProvider = ({ children }) => {
       amount: transaction.amount,
       account_id: transaction.account_id,
     }));
-
+ 
   useEffect(() => {
     fetchTransactions();
-    addTransaction();
     fetchAccounts();
     fetchTransactionById();
   }, []);

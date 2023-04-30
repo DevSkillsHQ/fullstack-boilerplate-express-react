@@ -8,14 +8,16 @@ const TransactionHistory = () => {
   
   const transactionObj = JSON.parse(storedTransaction) || [];
 
+  console.log(transactionObj)
+
   return (
     <>
       <h4>Transaction amount (deposit)</h4>
-      {transactionObj && transactionObj.from_account_id && transactionObj.to_account_id && transactionObj.amount ? (
+      {transactionObj && transactionObj.account_id && transactionObj.to_account_id && transactionObj.amount ? (
       <ul className="list">
         <li>
           <span className="account m-2">
-            Transferred: {transactionObj.from_account_id}
+            Transferred: {transactionObj.account_id}
           </span>
           <span className="amount m-2">{transactionObj.amount}Kr</span>
           <span className="balance m-2">

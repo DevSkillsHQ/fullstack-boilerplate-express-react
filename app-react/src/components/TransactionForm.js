@@ -4,7 +4,7 @@ import { TransactionsContext } from "../contexts/TransactionContext";
 const TransactionForm = () => {
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
-    from_account_id: "",
+    account_id: "",
     to_account_id: "",
     amount: "",
   });
@@ -19,8 +19,8 @@ const TransactionForm = () => {
     const intregex = new RegExp("[^[d.-/]+$");
 
     if (
-      !formData.from_account_id ||
-      !uuidv4regex.test(formData.from_account_id)
+      !formData.account_id ||
+      !uuidv4regex.test(formData.account_id)
     ) {
       errors.from_account_id = "From Account ID must be a valid UUID v4";
     }
@@ -41,14 +41,14 @@ const TransactionForm = () => {
     const errors = validateForm();
 
     const transaction = {
-      from_account_id: formData.from_account_id,
+      account_id: formData.account_id,
       to_account_id: formData.to_account_id,
       amount: formData.amount,
     };
 
     setTimeout(() => {
       window.location.reload(true);
-    }, 1000);
+    }, 6000);
 
     if (Object.keys(errors).length === 0) {
       await addTransaction(transaction);
@@ -75,14 +75,14 @@ const TransactionForm = () => {
           <input
             data-type="account-id"
             className="form-control"
-            id="from_account_id"
-            name="from_account_id"
-            value={formData.from_account_id}
+            id="account_id"
+            name="account_id"
+            value={formData.account_id}
             onChange={handleChange}
           />
         </div>
-        {errors.from_account_id && (
-          <div className="text-danger">{errors.from_account_id}</div>
+        {errors.account_id && (
+          <div className="text-danger">{errors.saccount_id}</div>
         )}
 
         <div className="form-control mb-3">
