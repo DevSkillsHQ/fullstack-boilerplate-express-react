@@ -4,7 +4,9 @@ import { TransactionsContext } from "../contexts/TransactionContext";
 const TransactionForm = () => {
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
-    account_id: "",
+    from_account_id: "",
+    to_account_id: "",
+    //account_id: "",
     amount: "",
   });
 
@@ -17,8 +19,15 @@ const TransactionForm = () => {
     );
     const intregex = new RegExp("[^[d.-/]+$");
 
-    if (!formData.account_id || !uuidv4regex.test(formData.account_id)) {
-      errors.account_id = "Account ID must be a valid UUID v4";
+    if (
+      !formData.from_account_id ||
+      !uuidv4regex.test(formData.from_account_id)
+    ) {
+      errors.from_account_id = "From Account ID must be a valid UUID v4";
+    }
+
+    if (!formData.to_account_id || !uuidv4regex.test(formData.to_account_id)) {
+      errors.to_account_id = "To Account ID must be a valid UUID v4";
     }
 
     if (!formData.amount || !intregex.test(formData.amount)) {
@@ -33,17 +42,18 @@ const TransactionForm = () => {
     const errors = validateForm();
 
     const transaction = {
-      account_id: formData.account_id,
+      from_account_id: formData.from_account_id,
+      to_account_id: formData.to_account_id,
       amount: formData.amount,
     };
 
     setTimeout(() => {
       window.location.reload(true);
-    }, 4000);
+    }, 6000);
 
     if (Object.keys(errors).length === 0) {
       await addTransaction(transaction);
-      setCurrentAccount(transaction.account_id);
+      //setCurrentAccount(transaction.from_account_id);
       setErrors({});
     } else {
       setErrors(errors);
@@ -60,20 +70,37 @@ const TransactionForm = () => {
       <h3>Add new transaction</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-control mb-3">
-          <label htmlFor="amountId" className="form-label">
-            Account Id
+          <label htmlFor="fromAccountId" className="form-label">
+            From Account Id
           </label>
           <input
             data-type="account-id"
             className="form-control"
-            id="account_id"
-            name="account_id"
-            value={formData.account_id}
+            id="from_account_id"
+            name="from_account_id"
+            value={formData.from_account_id}
             onChange={handleChange}
           />
         </div>
-        {errors.account_id && (
-          <div className="text-danger">{errors.account_id}</div>
+        {errors.from_account_id && (
+          <div className="text-danger">{errors.from_account_id}</div>
+        )}
+
+        <div className="form-control mb-3">
+          <label htmlFor="toAccountId" className="form-label">
+            To Account Id
+          </label>
+          <input
+            data-type="account-id"
+            className="form-control"
+            id="to_account_id"
+            name="to_account_id"
+            value={formData.to_account_id}
+            onChange={handleChange}
+          />
+        </div>
+        {errors.to_account_id && (
+          <div className="text-danger">{errors.to_account_id}</div>
         )}
         <div className="form-control mb-3">
           <label htmlFor="Amount" className="form-label">
@@ -92,19 +119,17 @@ const TransactionForm = () => {
         </div>
         {errors.amount && <div className="text-danger">{errors.amount}</div>}
 
-  
-          <div className="text-center d-flex align-items-center justify-content-center">
-            <button
-              data-type="transaction-submit"
-              type="submit"
-              id="submit"
-              variant="primary"
-              className="btn btn-primary"
-            >
-              Submit
-            </button>
-          </div>
-  
+        <div className="text-center d-flex align-items-center justify-content-center">
+          <button
+            data-type="transaction-submit"
+            type="submit"
+            id="submit"
+            variant="primary"
+            className="btn btn-primary"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </>
   );

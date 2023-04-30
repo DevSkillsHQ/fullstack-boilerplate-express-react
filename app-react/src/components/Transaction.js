@@ -10,8 +10,10 @@ const Transaction = ({ amount, accountId }) => {
     <li>
       <span className="account m-2">Account Id: {accountId}</span>
       <span className="amount m-2">Amount: {amount}</span>
-      <span className="balance m-2">Balance:{""}
-      {account ? `${account.balance.toFixed(2) ?? "Loading..."} Kr` : "-"}</span>
+         <span className="balance m-2">
+        Balance:{" "}
+        {account ? `${account.balance.toFixed(2) ?? "Loading..."} Kr` : "-"}
+      </span>
     </li>
   );
 };

@@ -1,5 +1,5 @@
 import WithDrawnList from "./WithDrawn";
-import DepositList from "./Deposit";
+import TransactionHistory from "./TransactionHistory";
 
 const TransactionList = () => {
   return (
@@ -7,7 +7,8 @@ const TransactionList = () => {
       <h3>Transaction History</h3>
       <ul>
         <WithDrawnList />
-        <DepositList />
+        <TransactionHistory />
+
       </ul>
     </>
   );

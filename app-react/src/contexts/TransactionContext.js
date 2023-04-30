@@ -6,12 +6,12 @@ export const TransactionsProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
   const [transactionById, setTransactionById] = useState([]);
   const [accounts, setAccounts] = useState([]);
-  const [test, setTest] = useState([]);
   const [currentAccount, setCurrentAccount] = useState(null);
   const [error, setError] = useState(null);
   const [balance, setBalance] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [test, setTest] = useState([]);
 
   const fetchTransactions = async () => {
     try {
@@ -28,8 +28,6 @@ export const TransactionsProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
-  console.log(transactions)
 
   const fetchAccounts = async () => {
     try {
@@ -78,7 +76,6 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  
   const addTransaction = async (transaction) => {
     try {
       const res = await fetch("http://localhost:4000/transactions", {
@@ -89,20 +86,36 @@ export const TransactionsProvider = ({ children }) => {
         body: JSON.stringify(transaction),
       });
       const data = await res.json();
-      setTransactions([...transactions, data]);
+
+      const updatedTransactions = [
+        ...transactions,
+        {
+          from: transaction.from_account_id,
+          to: transaction.to_account_id,
+          ...data,
+        },
+      ];
+
+      localStorage.setItem("from", transaction.from_account_id);
+      localStorage.setItem("to", transaction.from_account_id);
+
+      setTransactions(updatedTransactions);
       setCurrentAccount(data.account_id);
+      setTest([...test, transaction]);
+      localStorage.setItem("test", JSON.stringify(transaction));
       setBalance(data.amount);
     } catch (err) {
       setError(err.message);
     }
   };
 
-  const deposit = transactions
-    .filter((transaction) => transaction.amount >= 0)
-    .map((transaction) => ({
-      amount: transaction.amount,
-      account_id: transaction.account_id,
-    }));
+  // const storedArray = JSON.parse(localStorage.getItem("test"));
+
+  // const updateLocalStorage = (key, transaction) => {
+  //   localStorage.setItem(key, JSON.stringify(transaction));
+  // };
+
+  // const deposit = transactions.filter((transaction) => transaction.amount >= 0);
 
   const withdrawn = transactions
     .filter((transaction) => transaction.amount < 0)
@@ -116,6 +129,7 @@ export const TransactionsProvider = ({ children }) => {
     addTransaction();
     fetchAccounts();
     fetchTransactionById();
+   
   }, []);
 
   if (loading) {
@@ -130,7 +144,7 @@ export const TransactionsProvider = ({ children }) => {
         transactions,
         currentAccount,
         addTransaction,
-        deposit,
+        test,
         withdrawn,
         error,
       }}
