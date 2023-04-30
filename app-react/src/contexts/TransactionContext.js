@@ -129,7 +129,6 @@ export const TransactionsProvider = ({ children }) => {
     addTransaction();
     fetchAccounts();
     fetchTransactionById();
-   
   }, []);
 
   if (loading) {

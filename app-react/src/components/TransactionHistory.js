@@ -5,11 +5,13 @@ const TransactionHistory = () => {
   const { test } = useContext(TransactionsContext);
 
   const storedTransaction = localStorage.getItem("test");
-  const transactionObj = JSON.parse(storedTransaction);
+  
+  const transactionObj = JSON.parse(storedTransaction) || [];
 
   return (
     <>
       <h4>Transaction amount (deposit)</h4>
+      {transactionObj && transactionObj.from_account_id && transactionObj.to_account_id && transactionObj.amount ? (
       <ul className="list">
         <li>
           <span className="account m-2">
@@ -21,6 +23,9 @@ const TransactionHistory = () => {
           </span>
         </li>
       </ul>
+       ) : (
+        <p>No transactions available.</p>
+      )}
     </>
   );
 };
