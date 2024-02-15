@@ -13,11 +13,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install jq
+        run: sudo apt-get install jq
+      - name: Extract port from cypress.json
+        id: vars
+        run: |
+          apiUrl=$(jq -r '.env.apiUrl' ./cypress.json)
+          port=$(echo $apiUrl | grep -o '[0-9]\+')
+          echo "Extracted port: $port"
+          echo "::set-output name=port::$port"
       - name: Run tests
         uses: cypress-io/github-action@v5
         with:
           build: npm run build
           start: npm run start
+          wait-on: 'npx wait-on --timeout 60000 http://localhost:${{ steps.vars.outputs.port }}/ping'
 
   # Verifies the boilerplate can start and run in codespace environment
   test-for-codespaces:
@@ -33,14 +43,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Start daemon
-        run: npm run start &
+      - name: Install jq
+        run: sudo apt-get install jq
+      - name: Extract port from cypress.json
+        id: vars
+        run: |
+          apiUrl=$(jq -r '.env.apiUrl' ./cypress.json)
+          port=$(echo $apiUrl | grep -o '[0-9]\+')
+          echo "Extracted port: $port"
+          echo "::set-output name=port::$port"
       - name: Run tests
-        run: npm run test
+        uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          start: npm run start
+          wait-on: 'npx wait-on --timeout 60000 http://localhost:${{ steps.vars.outputs.port }}/ping'
 
   check-dependabot:
     needs:
