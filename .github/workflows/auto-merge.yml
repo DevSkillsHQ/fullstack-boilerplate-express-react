@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
       - name: Install jq
         run: sudo apt-get install jq
       - name: Extract port from cypress.json
@@ -27,7 +32,7 @@ jobs:
         with:
           build: npm run build
           start: npm run start
-          wait-on: 'npx wait-on --timeout 60000 http://localhost:${{ steps.vars.outputs.port }}/ping'
+          wait-on: 'npx wait-on --timeout 120000 http-get://127.0.0.1:${{ steps.vars.outputs.port }}/ping'
 
   # Verifies the boilerplate can start and run in codespace environment
   test-for-codespaces:
@@ -57,7 +62,7 @@ jobs:
         with:
           build: npm run build
           start: npm run start
-          wait-on: 'npx wait-on --timeout 60000 http://localhost:${{ steps.vars.outputs.port }}/ping'
+          wait-on: 'npx wait-on --timeout 120000 http-get://127.0.0.1:${{ steps.vars.outputs.port }}/ping'
 
   check-dependabot:
     needs:
