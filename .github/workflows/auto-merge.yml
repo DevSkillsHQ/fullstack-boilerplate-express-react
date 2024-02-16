@@ -28,8 +28,16 @@ jobs:
       - name: Extract port from cypress.json
         id: vars
         run: |
-          apiUrl=$(jq -r '.env.apiUrl' ./cypress.json)
+          apiUrl=$(jq -r '.env.apiUrl // .baseUrl // empty' ./cypress.json)
+          if [[ -z "$apiUrl" ]]; then
+            echo "API URL or Base URL not found in cypress.json."
+            exit 1
+          fi
           port=$(echo $apiUrl | grep -o '[0-9]\+')
+          if [[ -z "$port" ]]; then
+            echo "Port not found in URL."
+            exit 1
+          fi
           echo "Extracted port: $port"
           echo "::set-output name=port::$port"
       - name: Run tests
@@ -58,8 +66,16 @@ jobs:
       - name: Extract port from cypress.json
         id: vars
         run: |
-          apiUrl=$(jq -r '.env.apiUrl' ./cypress.json)
+          apiUrl=$(jq -r '.env.apiUrl // .baseUrl // empty' ./cypress.json)
+          if [[ -z "$apiUrl" ]]; then
+            echo "API URL or Base URL not found in cypress.json."
+            exit 1
+          fi
           port=$(echo $apiUrl | grep -o '[0-9]\+')
+          if [[ -z "$port" ]]; then
+            echo "Port not found in URL."
+            exit 1
+          fi
           echo "Extracted port: $port"
           echo "::set-output name=port::$port"
       - name: Run tests
