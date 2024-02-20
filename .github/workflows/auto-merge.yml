@@ -9,46 +9,9 @@ on:
 jobs:
   # Verifies the boilerplate can start and run in GitHub Actions environment
   test-for-workflow:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3
-          bundler-cache: true
-      - name: Install jq
-        run: sudo apt-get install jq
-      - name: Extract port from cypress.json
-        id: vars
-        run: |
-          apiUrl=$(jq -r '.env.apiUrl // .baseUrl // empty' ./cypress.json)
-          if [[ -z "$apiUrl" ]]; then
-            echo "API URL or Base URL not found in cypress.json."
-            exit 1
-          fi
-          port=$(echo $apiUrl | grep -o '[0-9]\+')
-          if [[ -z "$port" ]]; then
-            echo "Port not found in URL."
-            exit 1
-          fi
-          echo "Extracted port: $port"
-          echo "::set-output name=port::$port"
-      - name: Run tests
-        uses: cypress-io/github-action@v5
-        with:
-          build: npm run build
-          start: npm run start
-          wait-on: 'npx wait-on --timeout ${{ env.WAIT_ON_TIMEOUT }} tcp:${{ steps.vars.outputs.port }}'
-        env:
-          WAIT_ON_TIMEOUT: ${{ vars.WAIT_ON_TIMEOUT }}
-
+    name: Alva test workflow
+    uses: DevSkillsHQ/publish-test-results-workflow/.github/workflows/publish-test-results.yml@main
+  
   # Verifies the boilerplate can start and run in codespace environment
   test-for-codespaces:
     runs-on: ubuntu-20.04
@@ -65,29 +28,24 @@ jobs:
         uses: actions/checkout@v4
       - name: Install jq
         run: sudo apt-get install jq
-      - name: Extract port from cypress.json
-        id: vars
+      - name: Fetch apiUrl
         run: |
-          apiUrl=$(jq -r '.env.apiUrl // .baseUrl // empty' ./cypress.json)
-          if [[ -z "$apiUrl" ]]; then
-            echo "API URL or Base URL not found in cypress.json."
-            exit 1
+          apiUrl=$(grep "apiUrl:" cypress.config.js | awk -F": " '{print $2}' | tr -d "'," || echo "")
+
+          if [[ ! -z "$apiUrl" ]]; then
+            apiUrl="$apiUrl/ping"
           fi
-          port=$(echo $apiUrl | grep -o '[0-9]\+')
-          if [[ -z "$port" ]]; then
-            echo "Port not found in URL."
-            exit 1
-          fi
-          echo "Extracted port: $port"
-          echo "::set-output name=port::$port"
-      - name: Run tests
+          
+          echo "apiUrl=$apiUrl" >> $GITHUB_ENV
+
+        shell: bash
+      # Running tests for all challenges except Backend.
+      - name: Run tests without waiting on API
+        if: env.apiUrl == ''
         uses: cypress-io/github-action@v5
         with:
           build: npm run build
           start: npm run start
-          wait-on: 'npx wait-on --timeout ${{ env.WAIT_ON_TIMEOUT }} tcp:${{ steps.vars.outputs.port }}'
-        env:
-          WAIT_ON_TIMEOUT: ${{ vars.WAIT_ON_TIMEOUT }}
 
   check-dependabot:
     needs:
