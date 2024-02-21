@@ -1,0 +1,77 @@
+name: Tests and Dependabot PR Handling
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # Verifies the boilerplate can start and run in GitHub Actions environment
+  test-for-workflow:
+    name: Alva test workflow
+    uses: DevSkillsHQ/publish-test-results-workflow/.github/workflows/publish-test-results.yml@main
+  
+  # Verifies the boilerplate can start and run in codespace environment
+  test-for-codespaces:
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      packages: read
+    container:
+      image: ghcr.io/devskillshq/boilerplate-base-image:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install jq
+        run: sudo apt-get install jq
+      - name: Fetch apiUrl
+        run: |
+          apiUrl=$(grep "apiUrl:" cypress.config.js | awk -F": " '{print $2}' | tr -d "'," || echo "")
+
+          if [[ ! -z "$apiUrl" ]]; then
+            apiUrl="$apiUrl/ping"
+          fi
+          
+          echo "apiUrl=$apiUrl" >> $GITHUB_ENV
+
+        shell: bash
+      # Running tests for all challenges except Backend.
+      - name: Run tests without waiting on API
+        if: env.apiUrl == ''
+        uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          start: npm run start
+      - name: Run tests with waiting on API
+        if: env.apiUrl != ''
+        uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          start: npm run start
+          wait-on: ${{ env.apiUrl }}
+
+
+  auto-merge-dependabot:
+    needs:
+      - test-for-workflow
+      - test-for-codespaces
+    runs-on: ubuntu-20.04
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

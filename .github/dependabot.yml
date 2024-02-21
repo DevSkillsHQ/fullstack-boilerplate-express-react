@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/app-express"
+    schedule:
+      interval: "daily"
+    labels:
+      - "npm"
+      - "dependencies"
+  - package-ecosystem: "npm"
+    directory: "/app-react"
+    schedule:
+      interval: "daily"
+    labels:
+      - "npm"
+      - "dependencies"
