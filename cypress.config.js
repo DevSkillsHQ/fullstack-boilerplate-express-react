@@ -2,7 +2,7 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   env: {
-    apiUrl: 'http://localhost:5000',
+    apiUrl: 'http://localhost:8000',
   },
   e2e: {
     supportFile: false,

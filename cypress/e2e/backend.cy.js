@@ -1,7 +1,6 @@
 const apiUrl = `${Cypress.env("apiUrl")}`
 
 describe('Backend Test Spec', () => {
-
   it('should call ping', () => {
     cy.request({
       failOnStatusCode: false,

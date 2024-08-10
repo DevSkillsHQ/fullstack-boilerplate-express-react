@@ -1,23 +1,48 @@
- # Fullstack Boilerplate
+# Fullstack Boilerplate Express/React
 
-Use it for setting up a take-home interview assignment or a portfolio project.
+A backbone for your coding challenge.
 
 ## Contents
 
-- [Backend service](https://github.com/DevSkillsHQ/fullstack-boilerplate-express-react/tree/main/app-express) - an Express service with a `/ping` endpoint. Extend with your code.
-- [Frontend app](https://github.com/DevSkillsHQ/fullstack-boilerplate-express-react/tree/main/app-react) - a React app. Extend with your code.
-- [E2E test suites](https://github.com/DevSkillsHQ/fullstack-boilerplate-express-react/tree/main/cypress/integration) - a backend and a frontend Cypress test suites. Extend with your tests.
-- [Pipeline](https://github.com/DevSkillsHQ/fullstack-boilerplate-express-react/blob/main/.github/workflows/tests.yml) - a test Runner that executes the Cypress tests on push to a branch other than `master`/`main`.
+- [Backend service](app-express) - an Express service with a `/ping` endpoint. Extend with your code.
+- [Frontend app](app-react) - a React app. Extend with your code.
+- [E2E test suites](cypress/e2e) - a backend and a frontend Cypress test suites. Extend with your tests.
+
 
 ## Tech Stack
 
 - React
-- create-react-app
+- Vite
+- Vitest
 - ExpressJS
 - Cypress
 - GitHub Actions
+
+## Getting started
+
+1. Build your app.
+
+```bash
+npm install
+npm run build # both Express backend and React frontend
+npm run build:backend # only Express backend
+npm run build:frontend # only React frontend
+```
+
+2. Start your app.
+
+```bash
+npm install
+npm run start # both Express backend and React frontend
+npm run start:backend # only Express backend
+npm run start:frontend # only React frontend
+```
+
+3. Run the Cypress tests.
+
+```bash
+npm run test # run project tests under `cypress/e2e`
+
 ---
 
-Made by [DevSkills](https://devskills.co).
-
-Did you find this repo useful? **Give us a shout on [Twitter](https://twitter.com/DevSkillsHQ) / [LinkedIn](https://www.linkedin.com/company/devskills)**.
+Authored by [Alva Labs](https://www.alvalabs.io/).

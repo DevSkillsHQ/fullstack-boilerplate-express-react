@@ -1,7 +1,7 @@
-# Backend Boilerplate
+# Backend Boilerplate with Express
 
 - Express 4
 
 ---
 
-Made by [DevSkills](https://devskills.co). 
+Authored by [Alva Labs](https://www.alvalabs.io/).

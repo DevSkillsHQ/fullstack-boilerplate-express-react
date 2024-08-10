@@ -6,9 +6,11 @@
     "build:frontend": "cd app-react && npm install && npm run build",
     "build": "npm run build:backend & npm run build:frontend",
     "start:backend": "cd app-express && npm run start",
-    "start:frontend": "cd app-react &&  npm run start",
+    "start:frontend": "cd app-react && npm run start",
     "start": "npm run start:backend & npm run start:frontend",
-    "test": "cypress run"
+    "test:backend": "cypress run --spec 'cypress/e2e/backend.cy.js'",
+    "test:frontend": "cypress run --spec 'cypress/e2e/frontend.cy.js'",
+    "test": "npm run test:backend && npm run test:frontend"
   },
   "devDependencies": {
     "cypress": "^12.17.1"
