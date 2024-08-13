@@ -8,9 +8,7 @@
     "start:backend": "cd app-express && npm run start",
     "start:frontend": "cd app-react && npm run start",
     "start": "npm run start:backend & npm run start:frontend",
-    "test:backend": "cypress run --spec 'cypress/e2e/backend.cy.js'",
-    "test:frontend": "cypress run --spec 'cypress/e2e/frontend.cy.js'",
-    "test": "npm run test:backend && npm run test:frontend"
+    "test": "cypress run"
   },
   "devDependencies": {
     "cypress": "^12.17.1"
