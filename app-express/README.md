@@ -1,6 +1,6 @@
 # Backend Boilerplate with Express
 
-- Express 4
+- Express
 
 ---
 
