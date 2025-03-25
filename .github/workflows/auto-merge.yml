@@ -17,7 +17,7 @@ jobs:
   
   # Verifies the boilerplate can start and run in codespace environment
   test-for-codespaces:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: read
@@ -62,7 +62,7 @@ jobs:
     needs:
       - test-for-workflow
       - test-for-codespaces
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
       - name: Dependabot metadata
