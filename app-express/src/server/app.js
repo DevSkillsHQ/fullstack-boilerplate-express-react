@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 app.use('/', does_method_exist, api_endpoints);
 
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).send('404 Not Found');
 });
 
