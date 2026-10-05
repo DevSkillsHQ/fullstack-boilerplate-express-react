@@ -1,4 +1,4 @@
-# Grouped, weekly updates (QOHP-1356). Majors of packages that only work together arrive
+# Grouped, weekly updates (QOHA-3756). Majors of packages that only work together arrive
 # as one PR per family; every minor and patch update of a directory arrives as one PR.
 version: 2
 updates:
