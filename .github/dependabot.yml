@@ -1,16 +1,41 @@
+# Grouped, weekly updates (QOHP-1356). Majors of packages that only work together arrive
+# as one PR per family; every minor and patch update of a directory arrives as one PR.
 version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/app-express"
     schedule:
-      interval: "daily"
-    labels:
-      - "npm"
-      - "dependencies"
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
   - package-ecosystem: "npm"
     directory: "/app-react"
     schedule:
-      interval: "daily"
-    labels:
-      - "npm"
-      - "dependencies"
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+          - "react-test-renderer"
+        update-types:
+          - "major"
+      vite:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "vitest"
+          - "@vitest/*"
+        update-types:
+          - "major"
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
